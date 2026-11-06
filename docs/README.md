@@ -2,6 +2,7 @@
 
 | Document | Purpose |
 | --- | --- |
+| [Project structure guide](./PROJECT_STRUCTURE.md) | Plain-language, folder-by-folder tour of the repository |
 | [Architecture](./ARCHITECTURE.md) | System boundaries, directories, data flow, and integration roles |
 | [Agent instructions](./AGENT_INSTRUCTIONS.md) | Required implementation and review rules for coding agents |
 | [AI prompt library](../prompt/README.md) | Reusable briefs for AI-assisted features, fixes, migrations, integrations, UI work, and reviews |

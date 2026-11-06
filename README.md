@@ -80,6 +80,8 @@ status.
 
 The detailed documentation is maintained in [`docs/`](./docs):
 
+- [Project structure guide](./docs/PROJECT_STRUCTURE.md): plain-language,
+  folder-by-folder tour of the repository (start here).
 - [Architecture](./docs/ARCHITECTURE.md) — application boundaries, data flow,
   directory map, current data model, and integration strategy.
 - [Agent instructions](./docs/AGENT_INSTRUCTIONS.md) — coding, security,
