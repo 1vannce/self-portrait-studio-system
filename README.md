@@ -4,6 +4,8 @@ A Next.js operations application with three connected business subsystems:
 Booking & Reservation, Point of Sale (POS) & Billing, and Inventory & Supply
 Management.
 
+> **Project architecture:** [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) explains every folder in plain language, with comments, a request walkthrough, and a "where to find things" table.
+
 > **Project background:** OH MEDIA Studio is a self-portrait photography studio that
 > provides customers with studio sessions and related photography services. The studio
 > manages customer bookings, schedules, studio resources, and inventory as part of
