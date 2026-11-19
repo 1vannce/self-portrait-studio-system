@@ -7,11 +7,13 @@ import {
   paymentMethod,
   paymentStatus,
   stockMovementType,
+  addonType,
   // Zod insert schemas
   insertProfileSchema,
   insertServiceSchema,
   insertTimeSlotSchema,
   insertReservationSchema,
+  insertReservationAddonSchema,
   insertOrderSchema,
   insertOrderItemSchema,
   insertPaymentSchema,
@@ -51,7 +53,21 @@ describe("Enum definitions", () => {
       "card",
       "gcash",
       "maya",
+      "gotyme",
       "bank_transfer",
+      "other",
+    ]);
+  });
+
+  it("addonType has the expected values", () => {
+    expect(addonType.enumValues).toEqual([
+      "extra_person",
+      "extra_kid",
+      "extra_pet",
+      "extra_print",
+      "raw_soft_copies",
+      "advance_edit",
+      "usb",
       "other",
     ]);
   });
@@ -116,6 +132,17 @@ describe("Insert schemas — valid input", () => {
       serviceId: "550e8400-e29b-41d4-a716-446655440001",
       timeSlotId: "550e8400-e29b-41d4-a716-446655440002",
       status: "pending",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("insertReservationAddonSchema accepts a valid addon", () => {
+    const result = insertReservationAddonSchema.safeParse({
+      reservationId: "550e8400-e29b-41d4-a716-446655440000",
+      addonType: "extra_pet",
+      quantity: 1,
+      unitPriceCents: 10000,
+      totalCents: 10000,
     });
     expect(result.success).toBe(true);
   });

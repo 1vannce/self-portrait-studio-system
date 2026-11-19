@@ -1,11 +1,12 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { defineConfig } from "drizzle-kit";
 
-const databaseUrl = process.env.DATABASE_URL;
+dotenv.config({ path: ".env.local" });
+dotenv.config();
 
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL is required to run Drizzle commands.");
-}
+const databaseUrl =
+  process.env.DATABASE_URL ||
+  "postgresql://postgres:postgres@localhost:5432/postgres";
 
 export default defineConfig({
   dialect: "postgresql",
