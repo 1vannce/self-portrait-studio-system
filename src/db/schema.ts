@@ -37,7 +37,19 @@ export const paymentMethod = pgEnum("payment_method", [
   "card",
   "gcash",
   "maya",
+  "gotyme",
   "bank_transfer",
+  "other",
+]);
+
+export const addonType = pgEnum("addon_type", [
+  "extra_person",
+  "extra_kid",
+  "extra_pet",
+  "extra_print",
+  "raw_soft_copies",
+  "advance_edit",
+  "usb",
   "other",
 ]);
 
@@ -86,6 +98,10 @@ export const services = pgTable("services", {
   description: text("description"),
   durationMinutes: integer("duration_minutes").notNull(),
   priceCents: integer("price_cents").notNull(),
+  basePax: integer("base_pax").default(1).notNull(),
+  maxPax: integer("max_pax").default(8).notNull(),
+  includedPrints: integer("included_prints").default(0).notNull(),
+  includedSoftCopies: integer("included_soft_copies").default(0).notNull(),
   isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
@@ -111,9 +127,9 @@ export const timeSlots = pgTable("time_slots", {
 
 export const reservations = pgTable("reservations", {
   id: uuid("id").defaultRandom().primaryKey(),
-  profileId: uuid("profile_id")
-    .notNull()
-    .references(() => profiles.id, { onDelete: "restrict" }),
+  profileId: uuid("profile_id").references(() => profiles.id, {
+    onDelete: "set null",
+  }),
   serviceId: uuid("service_id")
     .notNull()
     .references(() => services.id, { onDelete: "restrict" }),
@@ -122,13 +138,33 @@ export const reservations = pgTable("reservations", {
     .unique()
     .references(() => timeSlots.id, { onDelete: "restrict" }),
   guestName: text("guest_name"),
+  guestEmail: text("guest_email"),
   guestPhone: text("guest_phone"),
+  totalPax: integer("total_pax").default(1).notNull(),
+  kidsCount: integer("kids_count").default(0).notNull(),
+  petsCount: integer("pets_count").default(0).notNull(),
+  backdropChoice: text("backdrop_choice"),
   status: reservationStatus("status").default("pending").notNull(),
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+export const reservationAddons = pgTable("reservation_addons", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  reservationId: uuid("reservation_id")
+    .notNull()
+    .references(() => reservations.id, { onDelete: "cascade" }),
+  addonType: addonType("addon_type").notNull(),
+  quantity: integer("quantity").notNull().default(1),
+  unitPriceCents: integer("unit_price_cents").notNull(),
+  totalCents: integer("total_cents").notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at", { withTimezone: true })
     .defaultNow()
     .notNull(),
 });
@@ -299,6 +335,10 @@ export const selectTimeSlotSchema = createSelectSchema(timeSlots);
 // Reservations
 export const insertReservationSchema = createInsertSchema(reservations);
 export const selectReservationSchema = createSelectSchema(reservations);
+
+// Reservation Addons
+export const insertReservationAddonSchema = createInsertSchema(reservationAddons);
+export const selectReservationAddonSchema = createSelectSchema(reservationAddons);
 
 // Orders
 export const insertOrderSchema = createInsertSchema(orders);
