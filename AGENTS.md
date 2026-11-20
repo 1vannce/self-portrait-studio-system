@@ -13,3 +13,6 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 Before implementing changes, read [`docs/AGENT_INSTRUCTIONS.md`](./docs/AGENT_INSTRUCTIONS.md)
 and [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md). They define the project
 boundaries, security rules, validation expectations, and completion checklist.
+
+Domain terms are in [`GLOSSARY.md`](./GLOSSARY.md). Use its words in code, UI, and
+docs, and avoid the synonyms it lists.
